@@ -3,6 +3,7 @@
  */
 package com.github.tntgamestv.server.threads;
 
+import com.github.tntgamestv.Debu;
 import com.github.tntgamestv.console.Out;
 import com.github.tntgamestv.server.PacketHolder;
 import com.github.tntgamestv.server.serializable.PacketHandler;
@@ -25,16 +26,19 @@ public class ClientServerManager{
 	public static void init(){
 		packetHandler = new PacketHandler();
 		serverThread = new ServerThread(SERVER_PORT, packetHandler);
+		serverThread.init();
 		serverThread.start();
 	}
 	
 	public static void connect(String hostName){
 		clientThread = new ClientThread(hostName, SERVER_PORT);
+		clientThread.init();
 		clientThread.start();
 	}
 	
 	public static boolean isConnected(){
 		if(clientThread != null){
+			System.out.println(clientThread.getName());
 			return clientThread.isConnected();
 		}else{
 			return false;

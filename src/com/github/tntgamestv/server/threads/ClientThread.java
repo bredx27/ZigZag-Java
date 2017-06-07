@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.tntgamestv.Debu;
 import com.github.tntgamestv.console.Out;
 import com.github.tntgamestv.events.FutureListener;
 import com.github.tntgamestv.execeptions.PacketMatchesQueuePacketException;
@@ -49,12 +50,13 @@ public class ClientThread extends Thread {
 		try {
 			this.connection = new Socket(hostName, port);
 		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 		if (connection != null) {
 			try {
 				Out.clientThread("Client thread init starting. Creating I/O-Streams.");
-
+				
 				ObjectOutputStream objectOutputStream = new ObjectOutputStream(connection.getOutputStream());
 				Out.clientThread("Created client output stream. Flushing output stream.");
 				objectOutputStream.flush();

@@ -8,7 +8,7 @@ import com.github.tntgamestv.server.threads.ClientThread;
 
 public class TestClient {
 
-	public static void main(String[] args) {
+	public static void main2(String[] args) {
 		ClientThread clientThread = new ClientThread("localhost", ClientServerManager.SERVER_PORT);
 
 		FutureListener futureListener = new FutureListener() {
@@ -24,5 +24,15 @@ public class TestClient {
 		clientThread.setFutureListeners(futureListener);
 		clientThread.init();
 		clientThread.start();
+	}
+
+	public static void main(String[] args) throws InterruptedException {
+		ClientServerManager.init();
+		Thread.sleep(1000);
+		ClientServerManager.connect("localhost");
+		Thread.sleep(1000);
+		ClientServerManager.sendPacket(new TimePacket(System.currentTimeMillis()));
+		Thread.sleep(1000);
+		ClientServerManager.shutdown();
 	}
 }
