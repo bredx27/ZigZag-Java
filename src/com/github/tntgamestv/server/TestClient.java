@@ -16,6 +16,7 @@ public class TestClient {
 			@Override
 			public void execute() {
 				clientThread.sendPacket(new TimePacket(System.currentTimeMillis()));
+				clientThread.sendPacket(new TimePacket(System.currentTimeMillis()));
 				Out.clientThread("Packet was sent");
 				clientThread.close();
 			}

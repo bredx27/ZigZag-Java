@@ -21,16 +21,16 @@ import com.github.tntgamestv.server.serializable.packets.TimePacket;
  */
 public class AnswerThread extends Thread {
 
-	/*Host*/
+	/* Host */
 	private ServerThread hostThread;
-	
+
 	/* Connection */
-	private Socket			socket;
-	private String			hostName;
-	private int				port;
+	private Socket socket;
+	private String hostName;
+	private int port;
 
 	/* Handling */
-	private PacketHandler	packetHandler;
+	private PacketHandler packetHandler;
 
 	public AnswerThread(ServerThread hostThread, Socket connectedSocket, PacketHandler packetHandler) {
 		this.hostThread = hostThread;
@@ -66,14 +66,17 @@ public class AnswerThread extends Thread {
 		} else if (packet instanceof StatsUpdatePacket) {
 			Out.answerThread("Incoming packet => StatsUpdatePacket");
 			packetHandler.onStatsUpdatePacketRecieved((StatsUpdatePacket) packet);
-		} 
+		}
 	}
 
 	@Override
 	public void run() {
-		while (socket.isConnected()) {
-			try {
-				ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+		ObjectInputStream objectInputStream = null;
+		try {
+			if (socket.isConnected()) {
+				objectInputStream = new ObjectInputStream(socket.getInputStream());
+			}
+			while (socket.isConnected()) {
 				Out.answerThread("Reading object from input stream");
 				Object object = objectInputStream.readObject();
 				Out.answerThread("Got object: " + object.toString());
@@ -82,13 +85,13 @@ public class AnswerThread extends Thread {
 					Out.answerThread("Object is a packet. Redirecting to PacketHandler");
 					onPacketReceived((Packet) object);
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
 			}
 		}
 	}

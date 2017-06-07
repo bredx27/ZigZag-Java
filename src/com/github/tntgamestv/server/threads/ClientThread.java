@@ -18,19 +18,19 @@ import com.github.tntgamestv.server.serializable.packets.Packet;
 public class ClientThread extends Thread {
 
 	/* Connection */
-	private Socket				connection;
-	private String				hostName;
-	private int					port;
+	private Socket connection;
+	private String hostName;
+	private int port;
 
 	/* I/O-Streams */
-	private ObjectInputStream	objectInputStream;
-	private ObjectOutputStream	objectOutputStream;
+	private ObjectInputStream objectInputStream;
+	private ObjectOutputStream objectOutputStream;
 
-	private FutureListener[]	futureListeners;
+	private FutureListener[] futureListeners;
 
-	private boolean				keep	= true;
+	private boolean keep = true;
 
-	private List<PacketHolder>	packetQueue;
+	private List<PacketHolder> packetQueue;
 
 	/**
 	 * Creates a new ClientThread to send packets
@@ -48,7 +48,8 @@ public class ClientThread extends Thread {
 	public void init() {
 		try {
 			this.connection = new Socket(hostName, port);
-		} catch (IOException e) {}
+		} catch (IOException e) {
+		}
 
 		if (connection != null) {
 			try {
@@ -98,20 +99,20 @@ public class ClientThread extends Thread {
 
 	public void close() {
 		PacketHolder closeHolder = new PacketHolder(new ClosePacket(0), new PacketSendListener() {
-			
+
 			@Override
 			public void onPacketSend(Packet packet, long timestamp) {
 				try {
 					connection.close();
 					keep = false;
 					ClosePacket closePacket = (ClosePacket) packet;
-					Out.clientThread("Client thread closed on " + timestamp + " with error code " + closePacket.getErrorCode());
+					Out.clientThread(
+							"Client thread closed on " + timestamp + " with error code " + closePacket.getErrorCode());
 				} catch (IOException e) {
 					Out.clientThread("Something went wrong while sending close packet and closing client thread");
 				}
 			}
 		});
-		
 		this.sendPacket(closeHolder);
 	}
 

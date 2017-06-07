@@ -61,8 +61,11 @@ public class ServerThread extends Thread {
 				answer.start();
 				
 			} catch (IOException e) {
+				isRunning = false;
 				e.printStackTrace();
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				isRunning = false;
+			}
 		}
 	}
 

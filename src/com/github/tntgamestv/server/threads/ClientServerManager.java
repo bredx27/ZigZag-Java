@@ -20,7 +20,7 @@ public class ClientServerManager{
 	
 	private static PacketHandler packetHandler;
 	
-	public static final int SERVER_PORT = 2134;
+	public static final int SERVER_PORT = 60001;
 	
 	public static void init(){
 		packetHandler = new PacketHandler();
