@@ -54,12 +54,10 @@ public class ServerThread extends Thread {
 			try {
 				//Establish connection
 				Socket connectedSocket = socket.accept();
-				
 				//Create answer thread
 				AnswerThread answer = new AnswerThread(this, connectedSocket, packetHandler);
 				Out.serverThread("Someone connected: Address => " + connectedSocket.getInetAddress().getHostAddress());
 				answer.start();
-				
 			} catch (IOException e) {
 				isRunning = false;
 				e.printStackTrace();

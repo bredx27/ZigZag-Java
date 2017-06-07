@@ -127,9 +127,9 @@ public class ClientThread extends Thread {
 					packetHolder.callListener();
 					objectOutputStream.flush();
 				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (Exception e) {
 					Out.clientThread("Something went wrong while writing to output stream: " + e.getMessage());
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 

@@ -3,6 +3,7 @@
  */
 package com.github.tntgamestv.server.threads;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
@@ -86,7 +87,7 @@ public class AnswerThread extends Thread {
 					onPacketReceived((Packet) object);
 				}
 			}
-		} catch (Exception e) {
+		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 			try {
 				Thread.sleep(1000);
